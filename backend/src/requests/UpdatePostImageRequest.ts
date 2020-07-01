@@ -4,6 +4,5 @@
 export interface UpdateTodoRequest {
     name: string
     location: string
-    datePosted: string
     description: string
 }

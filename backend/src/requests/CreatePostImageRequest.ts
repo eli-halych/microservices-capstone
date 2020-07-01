@@ -4,6 +4,5 @@
 export interface CreateTodoRequest {
     name: string
     location: string
-    datePosted: string
     description: string
 }

@@ -151,13 +151,16 @@ export class ImagePosts extends React.PureComponent<ImagePostsProps, ImagePostSt
               <Grid.Column width={1} verticalAlign="middle">
               </Grid.Column>
               <Grid.Column width={9} verticalAlign="middle">
-                {post.name}
+                <p><label><b>Name/ID</b></label> </p>
+                <p>{post.name}</p>
               </Grid.Column>
               <Grid.Column width={2} floated="right">
-                {post.location_}
+                <p><label><b>Location</b></label> </p>
+                <p>{post.location_}</p>
               </Grid.Column>
               <Grid.Column width={2} floated="right">
-                {post.description}
+                <p><label><b>Description</b></label> </p>
+                <p>{post.description}</p>
               </Grid.Column>
               <Grid.Column width={1} floated="right">
                 <Button

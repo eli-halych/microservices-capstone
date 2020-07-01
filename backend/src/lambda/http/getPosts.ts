@@ -1,6 +1,7 @@
 import 'source-map-support/register'
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult, APIGatewayProxyHandler } from 'aws-lambda'
+import {getUserId} from "../utils";
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const userId = getUserId(event);
@@ -15,4 +16,4 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
             items: todos
         })
     }
-}
+};

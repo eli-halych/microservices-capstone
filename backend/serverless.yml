@@ -105,3 +105,24 @@ functions:
           - xray:PutTelemetryRecords
         Resource:
           - '*'
+
+
+  UpdatePost:
+    handler: src/lambda/http/updatePost.handler
+    events:
+      - http:
+          cors: true
+          authorizer: Auth
+          method: patch
+          path: posts/{postId}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POST_IMAGES_TABLE}
+      - Effect: Allow # xray permissions (required)
+        Action:
+          - xray:PutTraceSegments
+          - xray:PutTelemetryRecords
+        Resource:
+          - '*'

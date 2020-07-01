@@ -3,7 +3,7 @@ import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    const postId = event.pathParameters.todoId;
+    const postId = event.pathParameters.postId;
     const updatePost: UpdatePostImageRequest = JSON.parse(event.body);
     const userId = getUserId(event);
 

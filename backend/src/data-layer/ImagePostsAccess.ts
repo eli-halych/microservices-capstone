@@ -10,7 +10,7 @@ export class ImagePostsAccess {
 
     constructor(
         private readonly docClient: DocumentClient = createDynamoDBClient(),
-        private readonly imagePostItems = process.env.IMAGE_POSTS_TABLE) {
+        private readonly imagePostItems = process.env.POST_IMAGES_TABLE) {
         logger.info('Constructor invoked');
     }
 

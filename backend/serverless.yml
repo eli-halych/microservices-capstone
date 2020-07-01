@@ -29,7 +29,7 @@ custom:
       models:
         - name: ImagePostRequestModel
           contentType: application/json
-          schema: ${file(src/models/create-post-imagerequest.json)}
+          schema: ${file(src/models/create-postimage-request.json)}
 
 plugins:
   - serverless-webpack

@@ -1,5 +1,5 @@
 service:
-  name: backend
+  name: serverless-instagram
 # app and org for use with dashboard.serverless.com
 #app: your-app-name
 #org: your-org-name
@@ -9,22 +9,48 @@ custom:
     webpackConfig: ./webpack.config.js
     includeModules: true
 
-# Add the serverless-webpack plugin
+  serverless-offline:
+    httpPort: 5000
+
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+    stages:
+      - ${self:provider.stage}
+
+    documentation:
+      api:
+        info:
+          version: v1.0.0
+          title: Serverless Instagram API
+          description: Serverless application for posting pictures
+      models: ImagePostRequestModel
+          contentType: application/json
+          schema: ${file(src/models/create-post-imagerequest.json)}
+
 plugins:
   - serverless-webpack
+  - serverless-iam-roles-per-function
+  - serverless-reqvalidator-plugin
+  - serverless-aws-documentation
+  - serverless-plugin-canary-deployments
+  - serverless-offline
+  - serverless-dynamodb-local
 
 provider:
   name: aws
   runtime: nodejs12.x
+
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+
   apiGateway:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
-  environment:
-    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
 
-functions:
-  hello:
-    handler: handler.hello
-    events:
-      - http:
-          method: get
-          path: hello
+  environment:
+    POST_IMAGES_S3_BUCKET: serverless-instagram-${self:provider.stage}
+    SIGNED_URL_EXPIRATION: 400
+    POST_IMAGES_TABLE: PostImages-${self:provider.stage}
+    POST_IMAGE_ID_INDEX: PostImageIdIndex

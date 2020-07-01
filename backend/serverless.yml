@@ -151,7 +151,7 @@ functions:
     events:
       - http:
           method: post
-          path: todos/{todoId}/attachment
+          path: postImages/{postId}/attachment
           cors: true
           authorizer: Auth
     iamRoleStatements:

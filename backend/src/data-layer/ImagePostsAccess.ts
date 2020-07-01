@@ -47,10 +47,10 @@ export class ImagePostsAccess {
                 userId: userId,
                 postId: postId
             },
-            UpdateExpression: 'SET #n = :name, location = :location, description = :description',
+            UpdateExpression: 'SET #n = :name, location_ = :location_, description = :description',
             ExpressionAttributeValues : {
                 ':name': updateImagePost.name,
-                ':location': updateImagePost.location,
+                ':location_': updateImagePost.location_,
                 ':description': updateImagePost.description
             },
             ExpressionAttributeNames: {

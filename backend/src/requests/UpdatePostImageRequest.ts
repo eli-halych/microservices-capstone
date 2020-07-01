@@ -3,6 +3,6 @@
  */
 export interface UpdatePostImageRequest {
     name: string
-    location: string
+    location_: string
     description: string
 }

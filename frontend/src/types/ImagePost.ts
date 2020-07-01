@@ -4,6 +4,6 @@ export interface ImagePost {
     createdAt: string
     name: string
     description: string
-    location: string
+    location_: string
     attachmentUrl?: string
 }

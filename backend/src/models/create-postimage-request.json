@@ -9,7 +9,7 @@
     "description": {
       "type": "string"
     },
-    "location": {
+    "location_": {
       "type": "string"
     }
   },

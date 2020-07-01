@@ -4,7 +4,6 @@ import update from 'immutability-helper'
 import * as React from 'react'
 import {
   Button,
-  Checkbox,
   Divider,
   Grid,
   Header,
@@ -54,7 +53,7 @@ export class ImagePosts extends React.PureComponent<ImagePostsProps, ImagePostSt
       const newImagePost = await createPost(this.props.auth.getIdToken(), {
         name: this.state.newImagePostName,
         description: this.state.newImagePostDescription,
-        location: this.state.newImagePostLocation
+        location_: this.state.newImagePostLocation
       });
       this.setState({
         imagePosts: [...this.state.imagePosts, newImagePost],
@@ -155,7 +154,7 @@ export class ImagePosts extends React.PureComponent<ImagePostsProps, ImagePostSt
                 {post.name}
               </Grid.Column>
               <Grid.Column width={2} floated="right">
-                {post.location}
+                {post.location_}
               </Grid.Column>
               <Grid.Column width={2} floated="right">
                 {post.description}

@@ -1,6 +1,6 @@
-const apiId = '...'
-// export const apiEndpoint = `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev`
-export const apiEndpoint = `http://localhost:5000/dev`
+const apiId = 'sbil8s1pa6'
+export const apiEndpoint = `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev`
+// export const apiEndpoint = `http://localhost:5000/dev`
 
 export const authConfig = {
   domain: 'dev-fq3tss9d.eu.auth0.com',            // Auth0 domain

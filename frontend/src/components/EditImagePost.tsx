@@ -21,7 +21,7 @@ interface EditImagePostProps {
 
 interface EditImagePostState {
   file: any
-  location: string
+  location_: string
   description: string
   uploadState: UploadState
 }
@@ -32,23 +32,23 @@ export class EditImagePost extends React.PureComponent<
 > {
   state: EditImagePostState = {
     file: undefined,
-    location: "",
+    location_: "",
     description: "",
     uploadState: UploadState.NoUpload
   }
 
   handleTextChangeLocation = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const location = event.target.value
-    if (!location) return
+    const location_ = event.target.value
+    if (!location_) return
 
     this.setState({
-      location: location
+      location_: location_
     })
   }
 
   handleTextChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
     const description = event.target.value
-    if (!location) return
+    if (!description) return
 
     this.setState({
       description: description
@@ -79,14 +79,14 @@ export class EditImagePost extends React.PureComponent<
       this.setUploadState(UploadState.FetchingPresignedUrl)
       const uploadUrl = await getUploadUrl(tokenId, postId)
 
-      await patchPost(tokenId, postId, {
-        name: postId, // TODO change to actual name which is available
-        location: this.state.location,
-        description: this.state.description
-      })
-
       this.setUploadState(UploadState.UploadingFile)
       await uploadFile(uploadUrl, this.state.file)
+
+      await patchPost(tokenId, postId, {
+        name: postId, // TODO change to actual name which is available
+        location_: this.state.location_,
+        description: this.state.description
+      })
 
       alert('File was uploaded! Description was saved!')
     } catch (e) {
@@ -148,7 +148,7 @@ export class EditImagePost extends React.PureComponent<
         <label>Location</label>
         <input
           type="text"
-          value={this.state.location}
+          value={this.state.location_}
           ref="locationStringInput"
           onChange={this.handleTextChangeLocation}
         />

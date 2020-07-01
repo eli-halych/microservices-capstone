@@ -26,6 +26,8 @@ interface ImagePostsProps {
 interface ImagePostState {
   imagePosts: ImagePost[]
   newImagePostName: string
+  newImagePostLocation: string
+  newImagePostDescription: string
   loadingImagePosts: boolean
 }
 
@@ -33,6 +35,8 @@ export class ImagePosts extends React.PureComponent<ImagePostsProps, ImagePostSt
   state: ImagePostState = {
     imagePosts: [],
     newImagePostName: '',
+    newImagePostLocation: '',
+    newImagePostDescription: '',
     loadingImagePosts: true
   };
 
@@ -49,6 +53,8 @@ export class ImagePosts extends React.PureComponent<ImagePostsProps, ImagePostSt
 
       const newImagePost = await createPost(this.props.auth.getIdToken(), {
         name: this.state.newImagePostName,
+        description: this.state.newImagePostDescription,
+        location: this.state.newImagePostLocation
       });
       this.setState({
         imagePosts: [...this.state.imagePosts, newImagePost],
@@ -65,24 +71,6 @@ export class ImagePosts extends React.PureComponent<ImagePostsProps, ImagePostSt
       this.setState({
         imagePosts: this.state.imagePosts.filter(post => post.postId != postId)
       })
-    } catch {
-      alert('Image post deletion failed')
-    }
-  };
-
-  onImagePostCheck = async (pos: number) => {
-    try {
-      const post = this.state.imagePosts[pos];
-      await patchPost(this.props.auth.getIdToken(), post.postId, {
-        name: post.name,
-        location: post.location,
-        description: post.description
-      });
-      // this.setState({
-      //   imagePosts: update(this.state.imagePosts, {
-      //     [pos]: { done: { $set: !post.done } }
-      //   })
-      // })
     } catch {
       alert('Image post deletion failed')
     }
@@ -162,10 +150,6 @@ export class ImagePosts extends React.PureComponent<ImagePostsProps, ImagePostSt
           return (
             <Grid.Row key={post.postId}>
               <Grid.Column width={1} verticalAlign="middle">
-                <Checkbox
-                  onChange={() => this.onImagePostCheck(pos)}
-                  // checked={post.done}
-                />
               </Grid.Column>
               <Grid.Column width={9} verticalAlign="middle">
                 {post.name}
@@ -206,11 +190,4 @@ export class ImagePosts extends React.PureComponent<ImagePostsProps, ImagePostSt
       </Grid>
     )
   }
-
-  // calculateDueDate(): string {
-  //   const date = new Date();
-  //   date.setDate(date.getDate() + 7);
-  //
-  //   return dateFormat(date, 'yyyy-mm-dd') as string
-  // }
 }

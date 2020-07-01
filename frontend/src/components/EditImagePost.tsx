@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import Auth from '../auth/Auth'
-import { getUploadUrl, uploadFile } from '../api/imagePostsApi'
+import {getUploadUrl, patchPost, uploadFile} from '../api/imagePostsApi'
+import {strict} from "assert";
 
 enum UploadState {
   NoUpload,
@@ -20,6 +21,8 @@ interface EditImagePostProps {
 
 interface EditImagePostState {
   file: any
+  location: string
+  description: string
   uploadState: UploadState
 }
 
@@ -29,7 +32,27 @@ export class EditImagePost extends React.PureComponent<
 > {
   state: EditImagePostState = {
     file: undefined,
+    location: "",
+    description: "",
     uploadState: UploadState.NoUpload
+  }
+
+  handleTextChangeLocation = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const location = event.target.value
+    if (!location) return
+
+    this.setState({
+      location: location
+    })
+  }
+
+  handleTextChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const description = event.target.value
+    if (!location) return
+
+    this.setState({
+      description: description
+    })
   }
 
   handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,13 +73,22 @@ export class EditImagePost extends React.PureComponent<
         return
       }
 
+      const tokenId: string = this.props.auth.getIdToken()
+      const postId: string = this.props.match.params.postId
+
       this.setUploadState(UploadState.FetchingPresignedUrl)
-      const uploadUrl = await getUploadUrl(this.props.auth.getIdToken(), this.props.match.params.postId)
+      const uploadUrl = await getUploadUrl(tokenId, postId)
+
+      await patchPost(tokenId, postId, {
+        name: postId, // TODO change to actual name which is available
+        location: this.state.location,
+        description: this.state.description
+      })
 
       this.setUploadState(UploadState.UploadingFile)
       await uploadFile(uploadUrl, this.state.file)
 
-      alert('File was uploaded!')
+      alert('File was uploaded! Description was saved!')
     } catch (e) {
       alert('Could not upload a file: ' + e.message)
     } finally {
@@ -85,7 +117,8 @@ export class EditImagePost extends React.PureComponent<
               onChange={this.handleFileChange}
             />
           </Form.Field>
-
+          {this.renderDescriptionInput()}
+          {this.renderLocationInput()}
           {this.renderButton()}
         </Form>
       </div>
@@ -104,6 +137,36 @@ export class EditImagePost extends React.PureComponent<
         >
           Upload
         </Button>
+      </div>
+    )
+  }
+
+  renderLocationInput() {
+    return (
+      <div>
+
+        <label>Location</label>
+        <input
+          type="text"
+          value={this.state.location}
+          ref="locationStringInput"
+          onChange={this.handleTextChangeLocation}
+        />
+      </div>
+    )
+  }
+
+  renderDescriptionInput() {
+    return (
+      <div>
+
+        <label>Description</label>
+        <input
+          type="text"
+          value={this.state.description}
+          ref="descriptionStringInput"
+          onChange={this.handleTextChangeDescription}
+        />
       </div>
     )
   }

@@ -1,4 +1,4 @@
-export interface ImagePostItem {
+export interface ImagePost {
     userId: string
     postId: string
     createdAt: string

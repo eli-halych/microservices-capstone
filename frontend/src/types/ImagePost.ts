@@ -3,7 +3,7 @@ export interface ImagePost {
     postId: string
     createdAt: string
     name: string
-    description?: string
-    location?: string
+    description: string
+    location: string
     attachmentUrl?: string
 }

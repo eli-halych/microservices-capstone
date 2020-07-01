@@ -14,10 +14,9 @@ import {
   Loader
 } from 'semantic-ui-react'
 
-import { createPost, deletePost, getPosts, patchPost } from '../api/posts-api'
+import { createPost, deletePost, getPosts, patchPost } from '../api/imagePostsApi'
 import Auth from '../auth/Auth'
 import { ImagePost } from '../types/ImagePost'
-import {deleteImagePost} from "../../../backend/src/business-logic/imagePosts";
 
 interface ImagePostsProps {
   auth: Auth
@@ -47,10 +46,9 @@ export class ImagePosts extends React.PureComponent<ImagePostsProps, ImagePostSt
 
   onImagePostCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
     try {
-      // const dueDate = this.calculateDueDate();
+
       const newImagePost = await createPost(this.props.auth.getIdToken(), {
         name: this.state.newImagePostName,
-        // dueDate
       });
       this.setState({
         imagePosts: [...this.state.imagePosts, newImagePost],
@@ -63,7 +61,7 @@ export class ImagePosts extends React.PureComponent<ImagePostsProps, ImagePostSt
 
   onImagePostDelete = async (postId: string) => {
     try {
-      await deleteImagePost(this.props.auth.getIdToken(), postId);
+      await deletePost(this.props.auth.getIdToken(), postId);
       this.setState({
         imagePosts: this.state.imagePosts.filter(post => post.postId != postId)
       })

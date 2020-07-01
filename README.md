@@ -10,6 +10,6 @@ To run the app, run client locally and it will communication with AWS as it shou
 Run the frontend as following for the frontend:
 ```
 npm install
-npm run
+npm start
 ```
 <hr>

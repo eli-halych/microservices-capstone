@@ -1,5 +1,5 @@
 export interface ImagePostUpdate {
     name: string
-    location: string
+    location_: string
     description: string
 }

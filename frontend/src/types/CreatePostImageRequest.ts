@@ -3,6 +3,6 @@
  */
 export interface CreatePostImageRequest {
     name: string
-    location_: string
-    description: string
+    location_?: string
+    description?: string
 }

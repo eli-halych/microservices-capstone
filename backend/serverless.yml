@@ -29,7 +29,7 @@ custom:
       models:
         - name: ImagePostRequestModel
           contentType: application/json
-          schema: ${file(src/models/create-post-imagerequest.json)}
+          schema: ${file(src/models/create-postimage-request.json)}
 
 plugins:
   - serverless-webpack
@@ -47,8 +47,10 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
 
-  apiGateway:
-    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+  # enable AWS X-Ray Tracing
+  tracing:
+    lambda: true
+    apiGateway: true
 
   environment:
     POST_IMAGES_S3_BUCKET: serverless-instagram-${self:provider.stage}
@@ -152,7 +154,7 @@ functions:
     events:
       - http:
           method: post
-          path: postImages/{postId}/attachment
+          path: posts/{postId}/attachment
           cors: true
           authorizer: Auth
     iamRoleStatements:
@@ -222,7 +224,7 @@ resources:
         ResponseParameters:
           gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
           gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST,PATCH'"
         ResponseType: DEFAULT_4XX
         RestApiId:
           Ref: ApiGatewayRestApi

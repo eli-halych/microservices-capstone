@@ -10,7 +10,7 @@ export class ImagePostsAccess {
 
     constructor(
         private readonly docClient: DocumentClient = createDynamoDBClient(),
-        private readonly imagePostItems = process.env.IMAGE_POSTS_TABLE) {
+        private readonly imagePostItems = process.env.POST_IMAGES_TABLE) {
         logger.info('Constructor invoked');
     }
 
@@ -47,10 +47,10 @@ export class ImagePostsAccess {
                 userId: userId,
                 postId: postId
             },
-            UpdateExpression: 'SET #n = :name, location = :location, description = :description',
+            UpdateExpression: 'SET #n = :name, location_ = :location_, description = :description',
             ExpressionAttributeValues : {
                 ':name': updateImagePost.name,
-                ':location': updateImagePost.location,
+                ':location_': updateImagePost.location_,
                 ':description': updateImagePost.description
             },
             ExpressionAttributeNames: {

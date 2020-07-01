@@ -3,11 +3,12 @@ import * as uuid from 'uuid'
 import {CreatePostImageRequest} from "../requests/CreatePostImageRequest";
 import {ImagePostItem} from "../models/ImagePostItem";
 import {UpdatePostImageRequest} from "../requests/UpdatePostImageRequest";
+import {ImagePostsAccess} from "../data-layer/ImagePostsAccess";
 
 const imagePostsAccess = new ImagePostsAccess();
 
 export async function getAllImagePosts(userId: String): Promise<ImagePostItem[]> {
-    return imagePostsAccess.getAllImagePosts(userId);
+    return imagePostsAccess.getAllImagePostItems(userId);
 }
 
 export async function createImagePost(CreatePostImageRequest: CreatePostImageRequest, userId: string

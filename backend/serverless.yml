@@ -79,3 +79,29 @@ functions:
           - xray:PutTelemetryRecords
         Resource:
           - '*'
+
+  CreatePost:
+    handler: src/lambda/http/createPost.handler
+    events:
+      - http:
+          method: post
+          path: posts
+          cors: true
+          authorizer: Auth
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Create a new image post item
+            description: Create an image post item
+            requestModels:
+              'application/json': ImagePostRequestModel
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POST_IMAGES_TABLE}
+      - Effect: Allow # xray permissions (required)
+        Action:
+          - xray:PutTraceSegments
+          - xray:PutTelemetryRecords
+        Resource:
+          - '*'

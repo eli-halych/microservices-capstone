@@ -175,3 +175,33 @@ functions:
           - xray:PutTelemetryRecords
         Resource:
           - '*'
+
+
+resources:
+  Resources:
+    ImagePostsDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId   # partitionKey, posts tied to a user
+            AttributeType: S
+          - AttributeName: createdAt  # sortKey, can be sorted by date
+            AttributeType: S
+          - AttributeName: postId   # indexKey, that is the posts id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: postId
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.POST_IMAGES_TABLE}
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.POST_IMAGE_ID_INDEX}
+            KeySchema:
+              - AttributeName: postId
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-projectionobject.html

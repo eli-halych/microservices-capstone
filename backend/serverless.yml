@@ -26,7 +26,8 @@ custom:
           version: v1.0.0
           title: Serverless Instagram API
           description: Serverless application for posting pictures
-      models: ImagePostRequestModel
+      models:
+        - name: ImagePostRequestModel
           contentType: application/json
           schema: ${file(src/models/create-post-imagerequest.json)}
 
@@ -159,16 +160,16 @@ functions:
         Action:
           - dynamodb:Query
           - dynamodb:PutItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POST_IMAGES_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.TODO_ID_INDEX}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POST_IMAGES_TABLE}/index/${self:provider.environment.POST_IMAGE_ID_INDEX}
       - Effect: Allow
         Action:
           - s3:PutObject
           - s3:GetObject
-        Resource: arn:aws:s3:::${self:provider.environment.TODOS_S3_BUCKET}/*
+        Resource: arn:aws:s3:::${self:provider.environment.POST_IMAGES_S3_BUCKET}/*
       - Effect: Allow # xray permissions (required)
         Action:
           - xray:PutTraceSegments

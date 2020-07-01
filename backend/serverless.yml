@@ -54,3 +54,8 @@ provider:
     SIGNED_URL_EXPIRATION: 400
     POST_IMAGES_TABLE: PostImages-${self:provider.stage}
     POST_IMAGE_ID_INDEX: PostImageIdIndex
+
+functions:
+
+  Auth:
+    handler: src/lambda/auth/auth0Authorizer.handler
